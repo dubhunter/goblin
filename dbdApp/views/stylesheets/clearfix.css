@@ -1,0 +1,41 @@
+/*** HACKS ***/
+/*** CLEARFIX/HOLLY HACK
+	http://www.positioniseverything.net/easyclearing.html ***/
+.clearfix:after
+{
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearfixleft:after
+{
+    content: ".";
+    display: block;
+    height: 0;
+    clear: right;
+    visibility: hidden;
+}
+
+.clearfixright:after
+{
+    content: ".";
+    display: block;
+    height: 0;
+    clear: right;
+    visibility: hidden;
+}
+
+/** KINDA PISSES FIREFOX OFF **/
+.clearfix
+{
+	display: inline-block;
+}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
+/*** END HACKS ***/

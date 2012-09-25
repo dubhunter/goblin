@@ -1,0 +1,13 @@
+##
+# .htaccess :: DBD MVC Bootstrap Hook
+#
+# @package dbdMVC
+# @version 1.2
+# @author Don't Blink Design <info@dontblinkdesign.com>
+# @copyright Copyright (c) 2006-2007 by Don't Blink Design
+##
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^dontblinkdesign\.com [NC]
+RewriteRule (.*) http://www.dontblinkdesign.com/$1 [R=301,L]
+RewriteRule ^(.+\.css)$ /dbdCSS/combine/?files[]=$1 [L]
+RewriteRule !\.(js|ico|gif|jpg|png|css|txt|zip|tar|gz|tgz|swf|pdf|mp3|wav)$ index.php

@@ -1,0 +1,19 @@
+.hide
+{
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	font-size: 0;
+	/*display: block !important;
+	width: 0 !important;
+	height: 0 !important;
+	overflow: hidden !important;
+	font-size: 0 !important;*/
+}
+
+.hiddenIframe
+{
+	display: none;
+}

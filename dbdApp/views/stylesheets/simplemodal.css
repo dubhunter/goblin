@@ -1,0 +1,140 @@
+/*
+ * SimpleModal Basic Modal Dialog
+ * http://www.ericmmartin.com/projects/simplemodal/
+ * http://code.google.com/p/simplemodal/
+ *
+ * Copyright (c) 2007 Eric Martin - http://ericmmartin.com
+ *
+ * Licensed under the MIT license:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *
+ * Revision: $Id: basic.css 92 2008-01-12 04:18:34Z emartin24 $
+ *
+ */
+
+/* Overlay */
+.modalOverlay,
+.miniModalOverlay,
+.smallModalOverlay
+{
+	background-color: #fff;
+	cursor: wait;
+}
+
+/* Container */
+.modalWindow
+{
+	width: 750px;
+	left: 50%;
+	top: 5%;
+	margin-left: -375px;
+	background-color: #fff;
+	border: 1px solid var(tapBlue);
+	min-height: 150px;
+	/*padding-bottom: 42px;*/
+}
+
+.miniModalWindow
+{
+	width: 300px;
+	left: 50%;
+	top: 25%;
+	margin-left: -150px;
+	background-color: #fff;
+	border: 1px solid #55b947;
+	padding-bottom: 5px;
+}
+
+.smallModalWindow
+{
+	width: 650px;
+	height: 75%;
+	left: 50%;
+	top: 10%;
+	margin-left: -325px;
+	background-color: #fff;
+	border: 1px solid #999999;
+	padding-bottom: 42px;
+}
+
+.smallModalWindow p
+{
+	font-size: 1.0em;
+	margin-bottom: 15px;
+}
+
+#modalContainer
+{
+	margin: 0 3px 3px 3px;
+	border-right: 1px solid var(tapBlue);
+	border-left: 1px solid var(tapBlue);
+	border-bottom: 1px solid var(tapBlue);
+}
+
+.modalHeader,
+.miniModalHeader
+{
+	background: url(var(imgModalHeadBlue)) repeat-x left top;
+	margin: 3px 3px 0 3px;
+	line-height: 35px;
+}
+
+a.modalClose,
+a.miniModalClose,
+a.smallModalClose
+{
+	color: #fff;
+	width: 20px;
+	height: 20px;
+	display: inline;
+	top: 3px;
+	right: 25px;
+	cursor: pointer;
+}
+
+/*** LYBBA SPECIFIC STYLE ***/
+
+/*
+.modalHeader,
+.miniModalHeader
+{
+	height: 32px;
+}
+*/
+.modalHeader h3,
+.miniModalHeader h3
+{
+	padding-left: 10px;
+	color: #fff;
+	font-size: 1.7em;
+}
+
+.modalData,
+.miniModalData
+{
+	padding: 10px 10px 10px 15px;
+	text-align: left;
+}
+
+/*
+.public .modalData h3,
+.public .miniModalData h3
+{
+	display: none;
+}
+
+.miniModalData p
+{
+	font-size: 1.1em;
+	margin-bottom: 10px;
+}
+*/
+
+/*** PROMPT MODAL ***/
+.promptButton
+{
+	margin: 5px;
+	cursor: pointer;
+	float: right;
+	border-bottom: none !important;
+}
