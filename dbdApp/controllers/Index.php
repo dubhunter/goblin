@@ -14,7 +14,7 @@
  * @uses dbdController
  */
 class Index extends GMController {
-	
+
 	protected function getGoogleAuthToken($domain, $user, $pass) {
 
 		$response = Requests::post('https://www.google.com/accounts/ClientLogin', array(
@@ -32,17 +32,17 @@ class Index extends GMController {
 				return $line[1];
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	protected function getImap($host, $user, $pass) {
 		echo 'Connecting to: ' . $host . ' ' . $user . ':' . $pass . PHP_EOL . PHP_EOL;
 		ob_flush();
 		$imap = imap_open($host, $user, $pass) or die(imap_last_error() . PHP_EOL);
 		return $imap;
 	}
-	
+
 	protected function listMailboxes($imap, $host) {
 		$boxes = imap_list($imap, $host, '*');
 		if (!is_array($boxes)) {
@@ -63,14 +63,14 @@ class Index extends GMController {
 	}
 
 	public function doList() {
-		$host = $this->getParam('imap-host');
+		$host = $this->getParam('imap-host') ?: 'localhost';
 		$mbox = urldecode($this->getParam('imap-box') ?: 'INBOX');
 		$host = '{' . $host . ':993/imap/ssl/novalidate-cert}' . $mbox;
 		$user = urldecode($this->getParam('imap-user'));
 		$pass = $this->getParam('imap-pass');
-		
+
 		$imap = $this->getImap($host, $user, $pass);
-		
+
 		$this->listMailboxes($imap, $host);
 
 		echo PHP_EOL;
@@ -81,7 +81,7 @@ class Index extends GMController {
 	}
 
 	public function doMigrate() {
-		$host = $this->getParam('imap-host');
+		$host = $this->getParam('imap-host') ?: 'localhost';
 		$mbox = urldecode($this->getParam('imap-box') ?: 'INBOX');
 		$host = '{' . $host . ':993/imap/ssl/novalidate-cert}' . $mbox;
 		$user = urldecode($this->getParam('imap-user'));
@@ -94,13 +94,13 @@ class Index extends GMController {
 		$limit = $this->getParam('limit') ?: -1;
 
 		$googleEndpoint = 'https://apps-apis.google.com/a/feeds/migration/2.0/' . $domain . '/' . $guser . '/mail';
-		
+
 		$token = $this->getGoogleAuthToken($domain, $guser, $gpass);
 
 		$imap = $this->getImap($host, $user, $pass);
-		
+
 		$this->listMailboxes($imap, $host);
-		
+
 		$n = imap_num_msg($imap);
 
 		echo PHP_EOL;
@@ -118,9 +118,9 @@ class Index extends GMController {
 			$overview = imap_fetch_overview($imap, $msg, 0);
 			echo $overview[0]->subject;
 			ob_flush();
-			
+
 			$headers = imap_fetchheader($imap, $msg);
-			
+
 			$body = imap_body($imap, $msg, FT_PEEK);
 
 			$id = '--=Bound_' . md5(time());
@@ -132,20 +132,20 @@ class Index extends GMController {
 			if ($overview[0]->flagged) {
 				$part1 .= "<apps:mailItemProperty value='IS_STARRED'/>" . PHP_EOL;
 			}
-            if (!$overview[0]->seen) {
-                    $part1 .= "<apps:mailItemProperty value='IS_UNREAD'/>" . PHP_EOL;
-            }
-            if ($overview[0]->draft || preg_match('/Draft/', $mbox)) {
-                    $part1 .= "<apps:mailItemProperty value='IS_DRAFT'/>" . PHP_EOL;
-            } else if ($overview[0]->deleted || preg_match('/Deleted/', $mbox)) {
-                    $part1 .= "<apps:mailItemProperty value='IS_TRASH'/>" . PHP_EOL;
-            } else if (preg_match('/Sent/', $mbox)) {
-                    $part1 .= "<apps:mailItemProperty value='IS_SENT'/>" . PHP_EOL;
-            } else if ($this->getParam('google-label')) {
-                    $part1 .= "<apps:label labelName='" . urldecode($this->getParam('google-label')) . "'/>" . PHP_EOL;
-            } else {
-                    $part1 .= "<apps:mailItemProperty value='IS_INBOX'/>" . PHP_EOL;
-            }
+			if (!$overview[0]->seen) {
+				$part1 .= "<apps:mailItemProperty value='IS_UNREAD'/>" . PHP_EOL;
+			}
+			if ($overview[0]->draft || preg_match('/Draft/', $mbox)) {
+				$part1 .= "<apps:mailItemProperty value='IS_DRAFT'/>" . PHP_EOL;
+			} else if ($overview[0]->deleted || preg_match('/Deleted/', $mbox)) {
+				$part1 .= "<apps:mailItemProperty value='IS_TRASH'/>" . PHP_EOL;
+			} else if (preg_match('/Sent/', $mbox)) {
+				$part1 .= "<apps:mailItemProperty value='IS_SENT'/>" . PHP_EOL;
+			} else if ($this->getParam('google-label')) {
+				$part1 .= "<apps:label labelName='" . urldecode($this->getParam('google-label')) . "'/>" . PHP_EOL;
+			} else {
+				$part1 .= "<apps:mailItemProperty value='IS_INBOX'/>" . PHP_EOL;
+			}
 			$part1 .= "<apps:label labelName='PHP-Import'/>" . PHP_EOL;
 			$part1 .= "</entry>" . PHP_EOL;
 
