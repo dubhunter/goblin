@@ -3,5 +3,3 @@ cgi-bin
 conf
 error_docs
 logs
-clearCaches
-fixPerms
