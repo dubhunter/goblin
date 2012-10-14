@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "Clearing dbdApp/cache..."
+rm -rf dbdApp/cache/*
+
+echo "Clearing dbdApp/assets/images/cache..."
+rm -rf dbdApp/assets/images/cache/*
+
+echo "Clearing dbdApp/views/.templates_c..."
+rm -rf dbdApp/views/.templates_c/*
+
+echo "Done..."

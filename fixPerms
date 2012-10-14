@@ -1,0 +1,28 @@
+#!/bin/bash
+
+echo "USAGE: ${0} [user]"
+
+if [ $USER != "root" ]
+then
+        echo "TRY: sudo ${0} ${@}"
+        exit 1
+fi
+
+if [ ${#} -gt 0 ]
+then
+	u=${1}
+
+	echo "Changing ownership to ${u}"
+	chown -R ${u}:apache ./
+fi
+
+chmod 775 `find ./ -type d`
+
+echo "Changing files to 0664"
+chmod 664 `find ./ -type f | grep -v "${0}"`
+
+echo "Fixing special files & dirs"
+chmod 775 ./clearCaches
+chmod 775 ./dbdApp/dbdcli
+
+echo "Done..."
