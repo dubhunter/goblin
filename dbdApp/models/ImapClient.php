@@ -27,7 +27,7 @@ class ImapClient {
 
 	public function getMailboxes() {
 		$return = array();
-		$boxes = imap_list($this->imap . $this->mbox, $this->host, '*');
+		$boxes = imap_list($this->imap, $this->host . $this->mbox, '*');
 		if (!is_array($boxes)) {
 			return $return;
 		}
