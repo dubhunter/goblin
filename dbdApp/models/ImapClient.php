@@ -10,7 +10,7 @@ class ImapClient {
 
 	public function __construct($host, $mbox, $user, $pass) {
 		$this->host = '{' . $host . ':993/imap/ssl/novalidate-cert}';
-		$this->mbox = $mbox ?: 'INBOX';
+		$this->mbox = $mbox ?: '';
 		$this->user = $user;
 		$this->pass = $pass;
 		$this->imap = imap_open($this->host . $this->mbox, $this->user, $this->pass);
