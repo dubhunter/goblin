@@ -45,8 +45,6 @@ class Index extends GMController {
 		echo PHP_EOL;
 		echo $imap->getMessageCount() . ' Messages' . PHP_EOL . PHP_EOL;
 		ob_flush();
-
-		imap_close($imap);
 	}
 
 	public function doMigrate() {
