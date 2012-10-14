@@ -20,7 +20,9 @@ class ImapClient {
 	}
 
 	public function __destruct() {
-		imap_close($this->imap);
+		if ($this->imap) {
+			imap_close($this->imap);
+		}
 	}
 
 	public function getMailboxes() {
