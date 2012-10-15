@@ -33,7 +33,7 @@ class ImapMessageCollection implements Iterator {
 		$m->setSent(preg_match('/Sent/', $this->mbox));
 
 		if (!(preg_match('/^INBOX$/', $this->mbox) || preg_match('/^\[Gmail\]/', $this->mbox))) {
-			$label = preg_replace('INBOX\.', '', $this->mbox);
+			$label = preg_replace('/^INBOX\./', '', $this->mbox);
 			$m->setLabel($label);
 		}
 
