@@ -85,15 +85,15 @@ class ImapMessage {
 	}
 
 	public function setHeaders($headers) {
-		$this->headers = $headers;
+		$this->headers = base64_encode($headers);
 	}
 
 	public function setSubject($subject) {
-		$this->subject = $subject;
+		$this->subject = base64_encode($subject);
 	}
 
 	public function setBody($body) {
-		$this->body = $body;
+		$this->body = base64_encode($body);
 	}
 
 	public function isFlagged() {
@@ -117,15 +117,15 @@ class ImapMessage {
 	}
 
 	public function getHeaders() {
-		return $this->headers;
+		return base64_decode($this->headers);
 	}
 
 	public function getSubject() {
-		return $this->subject;
+		return base64_decode($this->subject);
 	}
 
 	public function getBody() {
-		return $this->body;
+		return base64_decode($this->body);
 	}
 }
 
