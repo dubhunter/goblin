@@ -168,7 +168,9 @@ class Index extends GMController {
 		foreach ($files as $file) {
 			echo $i . ' of ' . $n . ' - ';
 			$serial = @file_get_contents($dir . $file['name']);
-			echo $serial;
+//			echo $serial;
+			echo 'attempting to unserialize' . PHP_EOL;
+			ob_flush();
 			$msg = unserialize($serial);
 			echo $msg->getSubject() . ' ......';
 			ob_flush();
