@@ -95,7 +95,7 @@ class Index extends GMController {
 			$this->getParam('imap-pass')
 		);
 
-		$dir = $this->getParam('dir') ?: DBD_APP_DIR . 'backups/' . $this->getParam('imap-user');
+		$dir = $this->getParam('dir') ?: DBD_APP_DIR . 'backups/' . $this->getParam('imap-user') . '/';
 		$limit = $this->getParam('limit') ?: -1;
 
 		$this->listMailboxes($imap);
@@ -116,9 +116,9 @@ class Index extends GMController {
 			ob_flush();
 
 			//write to file
-			$filename = 'something';
+			$filename = $dir . 'something';
 
-			echo serialize($msg);
+//			echo serialize($msg);
 
 			echo $filename . PHP_EOL;
 			ob_flush();
