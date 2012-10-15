@@ -146,7 +146,11 @@ class Index extends GMController {
 			die ('Cannot open dir: ' . $dir . PHP_EOL);
 		}
 
-		$google = new GoogleMailClient($this->getParam('google-domain'), $this->getParam('google-user'), $this->getParam('google-pass'));
+		try {
+			$google = new GoogleMailClient($this->getParam('google-domain'), $this->getParam('google-user'), $this->getParam('google-pass'));
+		} catch (GoogleException $e) {
+			die($e->getMessage() . PHP_EOL);
+		}
 		$label = $this->getParam('google-label');
 
 		$limit = $this->getParam('limit') ?: -1;
