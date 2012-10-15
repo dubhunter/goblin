@@ -1,4 +1,3 @@
 #!/usr/bin/php -q
 <?php
-require_once("/var/www/vhosts/goblin.willmason.me/httpdocs/index.php");
-?>
+require_once(realpath(dirname(__FILE__) . '/../httpdocs') . '/index.php');
