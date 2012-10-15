@@ -116,9 +116,13 @@ class Index extends GMController {
 			ob_flush();
 
 			//write to file
-			$filename = $dir . 'something';
+			$filename = microtime(true) . '.goblin';
+			if ($this->getParam('imap-box')) {
+				$filename = $this->getParam('imap-box') . '/' . $filename;
+			}
 
-//			echo serialize($msg);
+			$data = serialize($msg);
+			file_put_contents($dir . $filename, $data);
 
 			echo $filename . PHP_EOL;
 			ob_flush();
