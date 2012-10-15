@@ -29,8 +29,9 @@ class Index extends GMController {
 
 	public function doDefault() {
 		echo 'USAGE: dbdcli -a list --imap-host=HOST --imap-user=USER --imap-pass=PASS --imap-box=INBOX' . PHP_EOL;
-		echo 'USAGE: dbdcli -a migrate --imap-host=HOST --imap-user=USER --google-domain=DOMAIN --google-user=USER --google-pass=PASS --google-label=LABEL --limit=LIMIT' . PHP_EOL;
+		echo 'USAGE: dbdcli -a migrate --imap-host=HOST --imap-user=USER --imap-pass=PASS --google-domain=DOMAIN --google-user=USER --google-pass=PASS --google-label=LABEL --limit=LIMIT' . PHP_EOL;
 		echo 'USAGE: dbdcli -a backup --imap-host=HOST --imap-user=USER --imap-pass=PASS --imap-box=INBOX --dir=DIR' . PHP_EOL;
+		echo 'USAGE: dbdcli -a restore --google-domain=DOMAIN --google-user=USER --google-pass=PASS --google-label=LABEL --dir=DIR --limit=LIMIT' . PHP_EOL;
 	}
 
 	public function doList() {
@@ -149,8 +150,6 @@ class Index extends GMController {
 		$label = $this->getParam('google-label');
 
 		$limit = $this->getParam('limit') ?: -1;
-
-
 
 		$files = wmFileSystem::scanDir($dir, 1);
 		$n = count($files);
