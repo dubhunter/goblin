@@ -24,6 +24,8 @@ class GoogleMailClient {
 			),
 		));
 
+		dbdLog($response);
+
 		foreach (preg_split('/\n/', $response->text) as $line) {
 			$line = explode('=', $line, 2);
 			if ($line[0] == 'Auth') {
