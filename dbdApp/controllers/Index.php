@@ -98,6 +98,15 @@ class Index extends GMController {
 		$dir = $this->getParam('dir') ?: DBD_APP_DIR . 'backups/' . $this->getParam('imap-user') . '/';
 		$limit = $this->getParam('limit') ?: -1;
 
+
+		if ($this->getParam('imap-box')) {
+			$dir .= '/' . $this->getParam('imap-box');
+		}
+
+		if (!is_dir($dir)) {
+			mkdir($dir, 0775, true);
+		}
+
 		$this->listMailboxes($imap);
 
 		$n = $imap->getMessageCount();
@@ -115,11 +124,7 @@ class Index extends GMController {
 			echo $msg->getSubject() . ' ......';
 			ob_flush();
 
-			//write to file
 			$filename = microtime(true) . '.goblin';
-			if ($this->getParam('imap-box')) {
-				$filename = $this->getParam('imap-box') . '/' . $filename;
-			}
 
 			$data = serialize($msg);
 			file_put_contents($dir . $filename, $data);
