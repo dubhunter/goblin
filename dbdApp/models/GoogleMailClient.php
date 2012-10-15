@@ -13,7 +13,7 @@ class GoogleMailClient {
 		$this->domain = $domain;
 		$this->user = $user;
 		$this->pass = $pass;
-		$this->endpoint = 'https://apps-apis.google.com/a/feeds/migration/2.0/' . $domain . '/' . $user . '/mail';
+		$this->endpoint = 'https://apps-apis.google.com/a/feeds/migration/2.0/' . $this->domain . '/' . $this->user . '/mail';
 
 		$response = Requests::post('https://www.google.com/accounts/ClientLogin', array(
 			'data' => array(
@@ -31,7 +31,9 @@ class GoogleMailClient {
 			}
 		}
 
-		throw new GoogleException('Error getting Google auth token');
+		if (!$this->token) {
+			throw new GoogleException('Error getting Google auth token');
+		}
 	}
 	
 	public function getGoogleAuthToken() {
