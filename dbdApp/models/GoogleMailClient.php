@@ -60,6 +60,8 @@ class GoogleMailClient {
 			$part1 .= "<apps:mailItemProperty value='IS_TRASH'/>" . PHP_EOL;
 		} else if ($msg->isSent()) {
 			$part1 .= "<apps:mailItemProperty value='IS_SENT'/>" . PHP_EOL;
+		} else if ($msg->getLabel()) {
+			$part1 .= "<apps:label labelName='" . $msg->getLabel() . "'/>" . PHP_EOL;
 		} else if ($label) {
 			$part1 .= "<apps:label labelName='" . $label . "'/>" . PHP_EOL;
 		} else {

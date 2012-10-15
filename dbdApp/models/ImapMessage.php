@@ -7,9 +7,7 @@ class ImapMessage {
 	protected $draft = false;
 	protected $deleted = false;
 	protected $sent = false;
-
-	protected $folder; //??
-
+	protected $label;
 	protected $subject;
 	protected $headers;
 	protected $body;
@@ -32,6 +30,10 @@ class ImapMessage {
 
 	public function setSent($sent) {
 		$this->sent = $sent;
+	}
+
+	public function setLabel($label) {
+		$this->label = $label;
 	}
 
 	public function setHeaders($headers) {
@@ -64,6 +66,10 @@ class ImapMessage {
 
 	public function isSent() {
 		return $this->sent ? true : false;
+	}
+
+	public function getLabel() {
+		return $this->label;
 	}
 
 	public function getHeaders() {

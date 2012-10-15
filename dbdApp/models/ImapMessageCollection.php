@@ -32,6 +32,11 @@ class ImapMessageCollection implements Iterator {
 		$m->setDeleted($overview[0]->deleted || preg_match('/Deleted/', $this->mbox));
 		$m->setSent(preg_match('/Sent/', $this->mbox));
 
+		if (!(preg_match('/^INBOX$/', $this->mbox) || preg_match('/^\[Gmail\]/', $this->mbox))) {
+			$label = preg_replace('INBOX\.', '', $this->mbox);
+			$m->setLabel($label);
+		}
+
 		$m->setSubject($overview[0]->subject);
 		$m->setHeaders(imap_fetchheader($this->imap, $msg));
 		$m->setBody(imap_body($this->imap, $msg, FT_PEEK));

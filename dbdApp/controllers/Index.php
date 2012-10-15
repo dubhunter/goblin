@@ -90,52 +90,51 @@ class Index extends GMController {
 	}
 
 	public function doBackup() {
-		$imap = $this->getImap(
-			$this->getParam('imap-host') ?: 'localhost',
-			$this->getParam('imap-box'),
-			$this->getParam('imap-user'),
-			$this->getParam('imap-pass')
-		);
+		$host = $this->getParam('imap-host') ?: 'localhost';
+		$mbox = $this->getParam('imap-box');
+		$user = $this->getParam('imap-user');
+		$pass = $this->getParam('imap-pass');
+
+//		$limit = $this->getParam('limit') ?: -1;
 
 		$dir = $this->getParam('dir') ?: realpath(DBD_APP_DIR . '../backups') . '/' . $this->getParam('imap-user') . '/';
-		$limit = $this->getParam('limit') ?: -1;
 
-
-		if ($this->getParam('imap-box')) {
-			$dir .= $this->getParam('imap-box') . '/';
-		}
+		$imap = $this->getImap($host, $mbox, $user, $pass);
 
 		if (!is_dir($dir)) {
 			mkdir($dir, 0775, true);
 		}
 
-		$this->listMailboxes($imap);
+		foreach ($imap->getMailboxes() as $mbox2) {
+			$imap2 = $this->getImap($host, preg_replace('/\{[^}]+\}/', '', $mbox2), $user, $pass);
+			echo $mbox2 . PHP_EOL;
 
-		$n = $imap->getMessageCount();
+			$n = $imap2->getMessageCount();
 
-		echo PHP_EOL;
+			echo PHP_EOL;
 
-		echo $n . ' Messages' . PHP_EOL . PHP_EOL;
-		ob_flush();
-
-		$i = 1;
-
-		/** @var $msg ImapMessage */
-		foreach ($imap->getMessages() as $msg) {
-			echo $i . ' of ' . $n . ' - ';
-			echo $msg->getSubject() . ' ......';
+			echo $n . ' Messages' . PHP_EOL . PHP_EOL;
 			ob_flush();
 
-			$filename = microtime(true) . '.goblin';
+			$i = 1;
 
-			$data = serialize($msg);
-			file_put_contents($dir . $filename, $data);
+			/** @var $msg ImapMessage */
+			foreach ($imap2->getMessages() as $msg) {
+				echo $i . ' of ' . $n . ' - ';
+				echo $msg->getSubject() . ' ......';
+				ob_flush();
 
-			echo $filename . PHP_EOL;
-			ob_flush();
+				$filename = microtime(true) . '.goblin';
 
-			if ($limit > 0 && $i >= $limit) break;
-			$i++;
+				$data = serialize($msg);
+				file_put_contents($dir . $filename, $data);
+
+				echo $filename . PHP_EOL;
+				ob_flush();
+
+//				if ($limit > 0 && $i >= $limit) break;
+				$i++;
+			}
 		}
 	}
 
