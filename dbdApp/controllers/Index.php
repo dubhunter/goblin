@@ -139,7 +139,7 @@ class Index extends GMController {
 	}
 
 	public function doRestore() {
-		$dir = $this->getParam('dir');
+		$dir = rtrim($this->getParam('dir'), '/') . '/';
 
 		if (!is_dir($dir)) {
 			die ('Cannot open dir: ' . $dir . PHP_EOL);
@@ -164,7 +164,7 @@ class Index extends GMController {
 
 		foreach ($files as $file) {
 			echo $i . ' of ' . $n . ' - ';
-			$msg = unserialize(file_get_contents($file['name']));
+			$msg = unserialize(file_get_contents($dir . $file['name']));
 			echo $msg->getSubject() . ' ......';
 			ob_flush();
 
