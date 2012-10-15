@@ -168,15 +168,15 @@ class Index extends GMController {
 			echo $i . ' of ' . $n . ' - ';
 			$serial = @file_get_contents($dir . $file['name']);
 //			echo $serial;
-			echo 'attempting to unserialize' . PHP_EOL;
+//			echo 'attempting to unserialize' . PHP_EOL;
 			ob_flush();
 			$msg = unserialize($serial);
 			echo $msg->getSubject() . ' ......';
 			ob_flush();
 
-//			$response = $google->postMessage($msg, $label);
-//
-//			echo ($response->ok ? 'OK' : 'ERR') . PHP_EOL;
+			$response = $google->postMessage($msg, $label);
+
+			echo ($response->ok ? 'OK' : 'ERR') . PHP_EOL;
 			ob_flush();
 
 			if ($limit > 0 && $i >= $limit) break;
