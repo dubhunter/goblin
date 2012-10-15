@@ -1,4 +1,5 @@
 <?php
+
 class GoogleMailClient {
 	
 	const EOL = "\r\n";
@@ -88,5 +89,3 @@ class GoogleMailClient {
 		return Requests::post($this->endpoint, $opts);
 	}
 }
-
-class GoogleException extends Exception {}
