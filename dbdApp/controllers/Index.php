@@ -57,6 +57,7 @@ class Index extends GMController {
 		);
 
 		$google = new GoogleMailClient($this->getParam('google-domain'), $this->getParam('google-user'), $this->getParam('google-pass'));
+		$label = $this->getParam('google-label');
 
 		$limit = $this->getParam('limit') ?: -1;
 
@@ -77,7 +78,7 @@ class Index extends GMController {
 			echo $msg->getSubject() . ' ......';
 			ob_flush();
 
-			$response = $google->postMessage($msg, $this->getParam('google-label'));
+			$response = $google->postMessage($msg, $label);
 
 			echo ($response->ok ? 'OK' : 'ERR') . PHP_EOL;
 			ob_flush();
@@ -130,6 +131,46 @@ class Index extends GMController {
 			file_put_contents($dir . $filename, $data);
 
 			echo $filename . PHP_EOL;
+			ob_flush();
+
+			if ($limit > 0 && $i >= $limit) break;
+			$i++;
+		}
+	}
+
+	public function doRestore() {
+		$dir = $this->getParam('dir');
+
+		if (!is_dir($dir)) {
+			die ('Cannot open dir: ' . $dir . PHP_EOL);
+		}
+
+		$google = new GoogleMailClient($this->getParam('google-domain'), $this->getParam('google-user'), $this->getParam('google-pass'));
+		$label = $this->getParam('google-label');
+
+		$limit = $this->getParam('limit') ?: -1;
+
+
+
+		$files = wmFileSystem::scanDir($dir, 1);
+		$n = count($files);
+
+		echo PHP_EOL;
+
+		echo $n . ' Messages' . PHP_EOL . PHP_EOL;
+		ob_flush();
+
+		$i = 1;
+
+		foreach ($files as $file) {
+			echo $i . ' of ' . $n . ' - ';
+			$msg = unserialize(file_get_contents($file['name']));
+			echo $msg->getSubject() . ' ......';
+			ob_flush();
+
+//			$response = $google->postMessage($msg, $label);
+//
+//			echo ($response->ok ? 'OK' : 'ERR') . PHP_EOL;
 			ob_flush();
 
 			if ($limit > 0 && $i >= $limit) break;
