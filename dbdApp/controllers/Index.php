@@ -95,12 +95,12 @@ class Index extends GMController {
 			$this->getParam('imap-pass')
 		);
 
-		$dir = $this->getParam('dir') ?: realpath(DBD_APP_DIR . '../backups/') . $this->getParam('imap-user') . '/';
+		$dir = $this->getParam('dir') ?: realpath(DBD_APP_DIR . '../backups') . '/' . $this->getParam('imap-user') . '/';
 		$limit = $this->getParam('limit') ?: -1;
 
 
 		if ($this->getParam('imap-box')) {
-			$dir .= '/' . $this->getParam('imap-box');
+			$dir .= $this->getParam('imap-box') . '/';
 		}
 
 		if (!is_dir($dir)) {
