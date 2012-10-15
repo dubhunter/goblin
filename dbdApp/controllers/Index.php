@@ -30,6 +30,7 @@ class Index extends GMController {
 	public function doDefault() {
 		echo 'USAGE: dbdcli -a list --imap-host=HOST --imap-user=USER --imap-pass=PASS --imap-box=INBOX' . PHP_EOL;
 		echo 'USAGE: dbdcli -a migrate --imap-host=HOST --imap-user=USER --google-domain=DOMAIN --google-user=USER --google-pass=PASS --google-label=LABEL --limit=LIMIT' . PHP_EOL;
+		echo 'USAGE: dbdcli -a backup --imap-host=HOST --imap-user=USER --imap-pass=PASS --imap-box=INBOX --dir=DIR' . PHP_EOL;
 	}
 
 	public function doList() {
@@ -79,6 +80,47 @@ class Index extends GMController {
 			$response = $google->postMessage($msg, $this->getParam('google-label'));
 
 			echo ($response->ok ? 'OK' : 'ERR') . PHP_EOL;
+			ob_flush();
+
+			if ($limit > 0 && $i >= $limit) break;
+			$i++;
+		}
+	}
+
+	public function doBackup() {
+		$imap = $this->getImap(
+			$this->getParam('imap-host') ?: 'localhost',
+			$this->getParam('imap-box'),
+			$this->getParam('imap-user'),
+			$this->getParam('imap-pass')
+		);
+
+		$dir = $this->getParam('dir') ?: DBD_APP_DIR . 'backups/' . $this->getParam('imap-user');
+		$limit = $this->getParam('limit') ?: -1;
+
+		$this->listMailboxes($imap);
+
+		$n = $imap->getMessageCount();
+
+		echo PHP_EOL;
+
+		echo $n . ' Messages' . PHP_EOL . PHP_EOL;
+		ob_flush();
+
+		$i = 1;
+
+		/** @var $msg ImapMessage */
+		foreach ($imap->getMessages() as $msg) {
+			echo $i . ' of ' . $n . ' - ';
+			echo $msg->getSubject() . ' ......';
+			ob_flush();
+
+			//write to file
+			$filename = 'something';
+
+			echo serialize($msg);
+
+			echo $filename . PHP_EOL;
 			ob_flush();
 
 			if ($limit > 0 && $i >= $limit) break;
