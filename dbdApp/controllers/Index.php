@@ -6,7 +6,7 @@ class Index extends GMController {
 		echo 'Connecting to: ' . $host . '/' . $mbox . ' ' . $user . ':' . $pass . PHP_EOL . PHP_EOL;
 		ob_flush();
 		try {
-			return new ImapClient($host, urldecode($mbox), urldecode($user), urldecode($pass));
+			return new ImapClient($host, $mbox, $user, $pass);
 		} catch (Exception $e) {
 			die($e->getMessage() . PHP_EOL);
 		}
@@ -55,7 +55,7 @@ class Index extends GMController {
 			$this->getParam('imap-pass')
 		);
 
-		$google = new GoogleMailClient($this->getParam('google-domain'), urldecode($this->getParam('google-user')), urldecode($this->getParam('google-pass')));
+		$google = new GoogleMailClient($this->getParam('google-domain'), $this->getParam('google-user'), $this->getParam('google-pass'));
 
 		$limit = $this->getParam('limit') ?: -1;
 
@@ -76,7 +76,7 @@ class Index extends GMController {
 			echo $msg->getSubject() . ' ......';
 			ob_flush();
 
-			$response = $google->postMessage($msg, urldecode($this->getParam('google-label')));
+			$response = $google->postMessage($msg, $this->getParam('google-label'));
 
 			echo ($response->ok ? 'OK' : 'ERR') . PHP_EOL;
 			ob_flush();
