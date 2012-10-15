@@ -23,7 +23,7 @@ require_once(DBD_MVC_DIR."dbdMVC.php");
 /**
  * Allow phpinfo() call via dbdInfo.
  */
-dbdMVC::exposePHPInfo();
+//dbdMVC::exposePHPInfo();
 
 /**
  * Set dbdMVC debug mode.
