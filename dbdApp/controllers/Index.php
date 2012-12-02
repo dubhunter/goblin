@@ -62,6 +62,8 @@ class Index extends GMController {
 
 		$limit = $this->getParam('limit') ?: -1;
 
+		$start = $this->getParam('start') ?: 1;
+
 		$this->listMailboxes($imap);
 
 		$n = $imap->getMessageCount();
@@ -79,13 +81,16 @@ class Index extends GMController {
 			echo $msg->getSubject() . ' ......';
 			ob_flush();
 
-			$response = $google->postMessage($msg, $label);
-
-			echo ($response->ok ? 'OK' : 'ERR') . PHP_EOL;
+			if ($i++ >= $start) {
+				$response = $google->postMessage($msg, $label);
+				echo ($response->ok ? 'OK' : 'ERR') . PHP_EOL;
+			} else {
+				echo 'SKIPPED' . PHP_EOL;
+				continue;
+			}
 			ob_flush();
 
-			if ($limit > 0 && $i >= $limit) break;
-			$i++;
+			if ($limit > 0 && $i > $limit) break;
 		}
 	}
 
