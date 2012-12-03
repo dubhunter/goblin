@@ -75,10 +75,10 @@ class Index extends GMController {
 
 		$messages = $imap->getMessages();
 
-		for ($i = $start; $i < $n; $i++) {
+		for ($i = $start; $i <= $n; $i++) {
 			echo $i . ' of ' . $n . ' - ';
 			/** @var $msg ImapMessage */
-			$msg = $messages[$i];
+			$msg = $messages[$i - 1];
 			echo $msg->getSubject() . ' ......';
 			ob_flush();
 
