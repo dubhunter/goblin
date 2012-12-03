@@ -73,24 +73,20 @@ class Index extends GMController {
 		echo $n . ' Messages' . PHP_EOL . PHP_EOL;
 		ob_flush();
 
-		$i = 1;
+		$messages = $imap->getMessages();
 
-		/** @var $msg ImapMessage */
-		foreach ($imap->getMessages() as $msg) {
+		for ($i = $start; $i < $n; $i++) {
 			echo $i . ' of ' . $n . ' - ';
+			/** @var $msg ImapMessage */
+			$msg = $messages[$i];
 			echo $msg->getSubject() . ' ......';
 			ob_flush();
 
-			if ($i++ >= $start) {
-				$response = $google->postMessage($msg, $label);
-				echo ($response->ok ? 'OK' : 'ERR') . PHP_EOL;
-			} else {
-				echo 'SKIPPED' . PHP_EOL;
-				continue;
-			}
+			$response = $google->postMessage($msg, $label);
+			echo ($response->ok ? 'OK' : 'ERR') . PHP_EOL;
 			ob_flush();
 
-			if ($limit > 0 && $i > $limit) break;
+			if ($limit > 0 && $i >= $limit) break;
 		}
 	}
 
