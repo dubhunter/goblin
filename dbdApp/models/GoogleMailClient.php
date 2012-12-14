@@ -16,7 +16,7 @@ class GoogleMailClient {
 		$this->pass = $pass;
 		$this->endpoint = 'https://apps-apis.google.com/a/feeds/migration/2.0/' . $this->domain . '/' . $this->user . '/mail';
 
-		$response = Requests::post('https://www.google.com/accounts/ClientLogin', array(
+		$response = Purl::post('https://www.google.com/accounts/ClientLogin', array(
 			'data' => array(
 				'Email' => $this->user . '@' . $this->domain,
 				'Passwd' => $this->pass,
@@ -88,6 +88,6 @@ class GoogleMailClient {
 			'data' => $data,
 		);
 
-		return Requests::post($this->endpoint, $opts);
+		return Purl::post($this->endpoint, $opts);
 	}
 }
